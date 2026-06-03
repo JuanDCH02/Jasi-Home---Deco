@@ -1,10 +1,11 @@
 import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import { PrismaClient } from "@prisma/client";
+import ws from "ws";
 
-const connectionString = `${process.env.DATABASE_URL}`;
+neonConfig.webSocketConstructor = ws;
 
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
-
-export { prisma };
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaNeon(pool);
+export const prisma = new PrismaClient({ adapter });
