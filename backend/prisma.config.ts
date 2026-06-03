@@ -10,6 +10,6 @@ export default defineConfig({
   },
   datasource: {
     // DIRECT_URL bypasses pgBouncer — requerido para prisma migrate deploy
-    url: env("DIRECT_URL"),
+    url: env("DATABASE_URL"),
   },
 });
