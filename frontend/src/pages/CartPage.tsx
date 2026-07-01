@@ -3,20 +3,16 @@ import { Trash2, Plus, Minus, ShoppingBag, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { recordOrder } from '../api';
+import { formatPrice, getProductPrices } from '../utils/pricing';
 
 export default function CartPage() {
   const { items, removeItem, updateQty, totalPrice, clearCart } = useCart();
-
-  const formatPrice = (n: number) =>
-    n.toLocaleString('es-AR', { maximumFractionDigits: 0 });
 
   const buildWhatsAppMessage = () => {
     const lines = items.map(
       (i) =>
         `• ${i.product.name} x${i.quantity} — $${formatPrice(
-          Number(i.product.price) *
-            (1 - i.product.discount / 100) *
-            i.quantity
+          getProductPrices(i.product).discountedPrice * i.quantity
         )}`
     );
     const text = [
@@ -94,8 +90,7 @@ export default function CartPage() {
             <AnimatePresence>
               {items.map((item) => {
                 const imageUrl = item.product.images?.[0]?.url;
-                const itemPrice =
-                  Number(item.product.price) * (1 - item.product.discount / 100);
+                const itemPrice = getProductPrices(item.product).discountedPrice;
 
                 return (
                   <motion.div
@@ -182,9 +177,7 @@ export default function CartPage() {
                     </span>
                     <span className="font-medium text-ink">
                       ${formatPrice(
-                        Number(i.product.price) *
-                          (1 - i.product.discount / 100) *
-                          i.quantity
+                        getProductPrices(i.product).discountedPrice * i.quantity
                       )}
                     </span>
                   </div>

@@ -1,4 +1,5 @@
 import type { OrderStatus } from '../../types';
+import { formatPrice } from '../../utils/pricing';
 
 interface StatusMeta {
   label: string;
@@ -16,5 +17,4 @@ export const STATUS_META: Record<OrderStatus, StatusMeta> = {
 
 export const STATUS_ORDER: OrderStatus[] = ['PENDING', 'PAID', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
 
-export const formatMoney = (n: number) =>
-  '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 0 });
+export const formatMoney = (n: number) => '$' + formatPrice(n);

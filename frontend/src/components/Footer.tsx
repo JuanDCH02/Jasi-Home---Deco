@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone } from 'lucide-react';
-import { InstagramIcon, FacebookIcon, XIcon } from './SocialIcons';
+import { InstagramIcon, FacebookIcon, } from './SocialIcons';
 
 export default function Footer() {
   return (
@@ -14,9 +14,10 @@ export default function Footer() {
             cada rincón de tu hogar.
           </p>
           <div className="flex gap-4 mt-6">
-            <a href="#" className="text-white/55 hover:text-brass-soft transition-colors duration-300"><InstagramIcon size={18} /></a>
-            <a href="#" className="text-white/55 hover:text-brass-soft transition-colors duration-300"><FacebookIcon size={18} /></a>
-            <a href="#" className="text-white/55 hover:text-brass-soft transition-colors duration-300"><XIcon size={18} /></a>
+            <a href="https://www.instagram.com/jasihomedeco/"
+              className="text-white/55 hover:text-brass-soft transition-colors duration-300"><InstagramIcon size={18} /></a>
+            <a href="https://www.facebook.com/profile.php?id=61578282431363&locale=es_LA"
+             className="text-white/55 hover:text-brass-soft transition-colors duration-300"><FacebookIcon size={18} /></a>
           </div>
         </div>
 
@@ -47,7 +48,7 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2.5">
               <Phone size={16} strokeWidth={1.75} className="shrink-0 text-brass" />
-              <span>+54 9 11 XXXX-XXXX</span>
+              <span>+54 9 11 2405-0288</span>
             </li>
           </ul>
         </div>

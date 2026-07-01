@@ -7,6 +7,7 @@ import {
   adminDeleteProduct, adminToggleProduct, adminUploadImage, getCategories,
 } from '../../api';
 import type { Product, Category } from '../../types';
+import { formatPrice } from '../../utils/pricing';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -266,7 +267,7 @@ export default function AdminProductsPage() {
                       <td className="px-4 py-3 text-stone-500">{p.category?.name}</td>
                       <td className="px-4 py-3"><MaterialBadge value={p.material} /></td>
                       <td className="px-4 py-3 text-right text-stone-700">
-                        ${Number(p.price).toLocaleString('es-AR')}
+                        ${formatPrice(Number(p.price))}
                       </td>
                       <td className="px-4 py-3 text-center"><StockBadge stock={p.stock} /></td>
                       <td className="px-4 py-3 text-center">

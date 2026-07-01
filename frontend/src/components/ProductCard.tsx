@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import type { Product } from '../types';
 import { useCart } from '../context/CartContext';
+import { formatPrice, getProductPrices } from '../utils/pricing';
 
 interface ProductCardProps {
   product: Product;
@@ -13,13 +14,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { addItem } = useCart();
 
   const imageUrl = product.images?.[0]?.url;
-  const discountedPrice =
-    product.discount > 0
-      ? Number(product.price) * (1 - product.discount / 100)
-      : Number(product.price);
-
-  const formatPrice = (n: number) =>
-    n.toLocaleString('es-AR', { maximumFractionDigits: 0 });
+  const { discountedPrice } = getProductPrices(product);
 
   return (
     <motion.div

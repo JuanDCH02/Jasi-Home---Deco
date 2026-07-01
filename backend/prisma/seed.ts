@@ -1,9 +1,12 @@
 import 'dotenv/config'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@prisma/client'
+import { neonConfig } from '@neondatabase/serverless'
+import { PrismaNeon } from '@prisma/adapter-neon'
+import { PrismaClient, Material } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import ws from 'ws'
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
+neonConfig.webSocketConstructor = ws
+const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
 const prisma  = new PrismaClient({ adapter })
 
 async function main() {
@@ -139,7 +142,7 @@ async function main() {
             price:       2900,
             discount:    0,
             stock:       18,
-            material:    'ALAMO' as any,
+            material:    Material.ALAMO,
             categoryId:  cocina.id,
             images:      ['https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=600&q=80'],
         },
@@ -160,7 +163,7 @@ async function main() {
             price:       4600,
             discount:    0,
             stock:       11,
-            material:    'PINO' as any,
+            material:    Material.PINO,
             categoryId:  cocina.id,
             images:      ['https://images.unsplash.com/photo-1532186773960-85649e5cb70b?w=600&q=80'],
         },
@@ -171,7 +174,7 @@ async function main() {
             price:       5800,
             discount:    0,
             stock:       10,
-            material:    'PINO' as any,
+            material:    Material.PINO,
             categoryId:  decoracion.id,
             images:      ['https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80'],
         },
@@ -182,7 +185,7 @@ async function main() {
             price:       3800,
             discount:    10,
             stock:       14,
-            material:    'ALAMO' as any,
+            material:    Material.ALAMO,
             categoryId:  decoracion.id,
             images:      ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80'],
         },

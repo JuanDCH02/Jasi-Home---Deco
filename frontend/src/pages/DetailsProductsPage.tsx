@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ShoppingCart, Minus, Plus, Check, Package } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import PriceDisplay from '../components/PriceDisplay';
 import { getProduct, getProducts } from '../api';
 import { useCart } from '../context/CartContext';
 import type { Product } from '../types';
@@ -43,9 +44,6 @@ export default function DetailsProductsPage() {
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [slug]);
-
-  const formatPrice = (n: number) =>
-    n.toLocaleString('es-AR', { maximumFractionDigits: 0 });
 
   const handleAdd = () => {
     if (!product) return;
@@ -93,10 +91,6 @@ export default function DetailsProductsPage() {
 
   const images = product.images ?? [];
   const hasImages = images.length > 0;
-  const discountedPrice =
-    product.discount > 0
-      ? Number(product.price) * (1 - product.discount / 100)
-      : Number(product.price);
   const inStock = product.stock > 0;
 
   return (
@@ -192,15 +186,8 @@ export default function DetailsProductsPage() {
               {product.name}
             </h1>
 
-            <div className="flex items-baseline gap-3 mt-7">
-              <span className="font-display text-ink text-3xl">
-                ${formatPrice(discountedPrice)}
-              </span>
-              {product.discount > 0 && (
-                <span className="text-lg text-stone-400 line-through">
-                  ${formatPrice(Number(product.price))}
-                </span>
-              )}
+            <div className="mt-7">
+              <PriceDisplay product={product} />
             </div>
 
             {/* Meta badges */}

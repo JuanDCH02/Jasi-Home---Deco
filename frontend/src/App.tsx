@@ -1,4 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -29,7 +30,9 @@ function PublicLayout() {
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       {/* Admin */}
       <Route path="/admin/login" element={<AdminLoginPage />} />
       <Route
@@ -55,6 +58,7 @@ export default function App() {
         <Route path="/contacto" element={<ContactPage />} />
         <Route path="/carrito" element={<CartPage />} />
       </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }

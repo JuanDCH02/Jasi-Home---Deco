@@ -89,14 +89,13 @@ export default function Navbar() {
 
           {/* Desktop: social icons */}
           <div className="hidden md:flex items-center gap-0.5 border border-white/15 rounded-full px-3 py-2 backdrop-blur-md bg-black/50">
-            <a href="https://www.instagram.com/jasihomedeco/" target="_blank" rel="noopener noreferrer" className="text-white/55 hover:text-brass-soft transition-colors duration-300 p-1">
+            <a href="https://www.instagram.com/jasihomedeco/" target="_blank" rel="noopener noreferrer"
+             className="text-white/55 hover:text-brass-soft transition-colors duration-300 p-1">
               <InstagramIcon size={17} />
             </a>
-            <a href="https://www.facebook.com/jasihomedeco" target="_blank" rel="noopener noreferrer" className="text-white/55 hover:text-brass-soft transition-colors duration-300 p-1">
+            <a href="https://www.facebook.com/profile.php?id=61578282431363&locale=es_LA" target="_blank" rel="noopener noreferrer"
+             className="text-white/55 hover:text-brass-soft transition-colors duration-300 p-1">
               <FacebookIcon size={17} />
-            </a>
-            <a href="https://www.tiktok.com/@jasihome?lang=en" target="_blank" rel="noopener noreferrer" className="text-white/55 hover:text-brass-soft transition-colors duration-300 p-1">
-              <XIcon size={17} />
             </a>
           </div>
 
