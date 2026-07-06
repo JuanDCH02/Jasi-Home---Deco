@@ -13,6 +13,7 @@ export default function Navbar() {
   const navLinks = [
     { to: '/productos', label: 'Productos' },
     { to: '/sobre-nosotros', label: 'Sobre Nosotros' },
+    { to: '/preguntas-frecuentes', label: 'Preguntas Frecuentes' },
     { to: '/contacto', label: 'Contacto' },
   ];
 
@@ -199,9 +200,6 @@ export default function Navbar() {
               </a>
               <a href="https://www.facebook.com/jasihomedeco" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors duration-300">
                 <FacebookIcon size={22} />
-              </a>
-              <a href="https://www.tiktok.com/@jasihome?lang=en" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors duration-300">
-                <XIcon size={22} />
               </a>
             </motion.div>
           </motion.div>

@@ -7,6 +7,7 @@ import ProductsPage from './pages/ProductsPage';
 import DetailsProductsPage from './pages/DetailsProductsPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import FaqPage from './pages/FaqPage';
 import CartPage from './pages/CartPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -56,6 +57,7 @@ export default function App() {
         <Route path="/productos/:slug" element={<DetailsProductsPage />} />
         <Route path="/sobre-nosotros" element={<AboutPage />} />
         <Route path="/contacto" element={<ContactPage />} />
+        <Route path="/preguntas-frecuentes" element={<FaqPage />} />
         <Route path="/carrito" element={<CartPage />} />
       </Route>
       </Routes>
