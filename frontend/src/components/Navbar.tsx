@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { InstagramIcon, FacebookIcon, XIcon } from './SocialIcons';
+import { InstagramIcon, FacebookIcon } from './SocialIcons';
 
 export default function Navbar() {
   const location = useLocation();
