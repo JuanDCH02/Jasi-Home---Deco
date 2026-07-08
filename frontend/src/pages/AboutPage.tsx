@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Hammer, Heart, MapPin } from 'lucide-react';
-import heroImage from '../assets/hero.png';
+import heroImage from '../assets/foto-banner.png'
+import Image2 from '../assets/abouUs-2.png'
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -95,7 +96,7 @@ export default function AboutPage() {
           <FadeUp delay={0.15}>
             <div className="aspect-square rounded-2xl overflow-hidden border border-stone-200">
               <img
-                src={heroImage}
+                src={Image2}
                 alt="Nuestro taller"
                 className="w-full h-full object-cover"
               />
