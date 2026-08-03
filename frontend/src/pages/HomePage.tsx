@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronLeft, ChevronRight, Star, Package, Truck } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Banknote, Package, Truck } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../api';
 import type { Product } from '../types';
@@ -24,9 +24,9 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 
 const features = [
   {
-    icon: <Star size={22} strokeWidth={1.5} className="text-brass" />,
-    title: 'Productos Cuidados',
-    desc: 'Cada pieza es inspeccionada para garantizar la máxima calidad',
+    icon: <Banknote size={22} strokeWidth={1.5} className="text-brass" />,
+    title: 'Aprovecha Descuentos',
+    desc: '25% OFF en efectivo/transferencia y 3 cuotas sin interés',
   },
   {
     icon: <Package size={22} strokeWidth={1.5} className="text-brass" />,

@@ -248,7 +248,7 @@ export default function DetailsProductsPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleAdd}
                 disabled={!inStock}
-                className={`w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ${
+                className={`hover:cursor-pointer w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-medium text-sm tracking-wide transition-all duration-300 ${
                   !inStock
                     ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
                     : added

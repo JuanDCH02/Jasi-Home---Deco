@@ -29,6 +29,6 @@ export const getProductPrices = (
     return {
         originalPrice,
         discountedPrice,
-        cardPrice: discountedPrice * CARD_SURCHARGE,
+        cardPrice: discountedPrice * CARD_SURCHARGE / 3,
     };
 };
