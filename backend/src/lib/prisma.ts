@@ -1,10 +1,13 @@
 import "dotenv/config";
-import { neonConfig } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
-import ws from "ws";
+import { z } from "zod";
 
-neonConfig.webSocketConstructor = ws;
+const envSchema = z.object({
+    DATABASE_URL: z.string().min(1, "DATABASE_URL no está definida"),
+});
 
-const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL });
+const { DATABASE_URL } = envSchema.parse(process.env);
+
+const adapter = new PrismaPg({ connectionString: DATABASE_URL });
 export const prisma = new PrismaClient({ adapter });

@@ -1,15 +1,14 @@
 import 'dotenv/config'
-import { neonConfig } from '@neondatabase/serverless'
-import { PrismaNeon } from '@prisma/adapter-neon'
-import { PrismaClient, Material } from '@prisma/client'
+import { Material } from '@prisma/client'
 import bcrypt from 'bcryptjs'
-import ws from 'ws'
-
-neonConfig.webSocketConstructor = ws
-const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
-const prisma  = new PrismaClient({ adapter })
+import { prisma } from '../src/lib/prisma'
 
 async function main() {
+    // El seed borra todas las órdenes: exige confirmación explícita para no pisar prod por error.
+    if (process.env.ALLOW_SEED !== 'true') {
+        throw new Error('Seed bloqueado: borra las consultas existentes. Ejecutá con ALLOW_SEED=true si es intencional.')
+    }
+
     console.log('🌱 Iniciando seed...')
 
     // ── ADMIN ──────────────────────────────────────────
