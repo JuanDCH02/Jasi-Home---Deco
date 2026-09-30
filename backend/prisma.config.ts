@@ -9,7 +9,7 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    // DIRECT_URL bypasses pgBouncer — requerido para prisma migrate deploy
+    // Conexión directa a Postgres (Railway): la usan migrate deploy/status
     url: env("DATABASE_URL"),
   },
 });
