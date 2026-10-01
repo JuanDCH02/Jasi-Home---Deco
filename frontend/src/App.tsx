@@ -51,7 +51,8 @@ export default function App() {
         <Route path="categorias" element={<AdminCategoriesPage />} />
       </Route>
 
-      {/* Public */}
+      {/* Public — al agregar una ruta, sumarla en vercel.json (si no, responde 404)
+          y, si es una página fija, en PRERENDER_PAGES de entry-server.tsx */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/productos" element={<ProductsPage />} />

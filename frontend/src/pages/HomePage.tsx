@@ -6,6 +6,7 @@ import ProductCard from '../components/ProductCard';
 import { getProducts } from '../api';
 import type { Product } from '../types';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 import heroImage from '../assets/hero-foto.jpg';
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -46,12 +47,7 @@ export default function HomePage() {
   const [carouselIdx, setCarouselIdx] = useState(0);
   const cardsPerPage = 3;
 
-  usePageMeta({
-    title: 'Muebles a medida en Buenos Aires',
-    description:
-      'Fabricamos muebles de álamo y pino: mesas de luz, cómodas, racks de TV y mesas ratonas. 25% OFF en efectivo y envíos a CABA y GBA.',
-    path: '/',
-  });
+  usePageMeta(PAGE_META.home);
 
   useEffect(() => {
     getProducts({ limit: 9 })

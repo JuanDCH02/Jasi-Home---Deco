@@ -6,16 +6,12 @@ import { recordOrder } from '../api';
 import { formatPrice, getProductPrices } from '../utils/pricing';
 import { optimizeImageUrl } from '../utils/cloudinary';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 export default function CartPage() {
   const { items, removeItem, updateQty, totalPrice, clearCart } = useCart();
 
-  usePageMeta({
-    title: 'Tu carrito',
-    description: 'Revisá los muebles de tu carrito y hacé tu pedido por WhatsApp.',
-    path: '/carrito',
-    noIndex: true,
-  });
+  usePageMeta(PAGE_META.cart);
 
   const buildWhatsAppMessage = () => {
     const lines = items.map(

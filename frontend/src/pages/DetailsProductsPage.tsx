@@ -10,12 +10,8 @@ import type { Product } from '../types';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { useJsonLd } from '../hooks/useJsonLd';
 import { optimizeImageUrl } from '../utils/cloudinary';
-import { buildProductDescription, buildProductJsonLd, buildProductTitle } from '../utils/seo';
-
-const MATERIAL_LABELS: Record<string, string> = {
-  PINO: 'Pino',
-  ALAMO: 'Álamo',
-};
+import { getMaterialLabel } from '../utils/materials';
+import { PAGE_META, PRODUCT_JSONLD_ID, buildProductSeo } from '../utils/seo';
 
 export default function DetailsProductsPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -60,29 +56,11 @@ export default function DetailsProductsPage() {
     return () => { ignore = true; };
   }, [slug, navigate]);
 
-  const materialLabel = product?.material ? MATERIAL_LABELS[product.material] ?? product.material : undefined;
-  const seoTitle = product ? buildProductTitle(product.name, materialLabel) : '';
-  const seoDescription = product ? buildProductDescription(product, seoTitle) : '';
+  const materialLabel = getMaterialLabel(product?.material);
+  const productSeo = product && !loading ? buildProductSeo(product, materialLabel) : null;
 
-  usePageMeta(
-    notFound
-      ? {
-          title: 'Producto no encontrado',
-          description: 'El producto que buscás no existe o fue retirado.',
-          path: `/productos/${slug}`,
-          noIndex: true,
-        }
-      : product && !loading
-        ? {
-            title: seoTitle,
-            description: seoDescription,
-            path: `/productos/${product.slug}`,
-            image: product.images?.[0]?.url,
-            noIndex: !product.active,
-          }
-        : null
-  );
-  useJsonLd('product-jsonld', product && !loading ? buildProductJsonLd(product, seoDescription, materialLabel) : null);
+  usePageMeta(notFound ? PAGE_META.productNotFound : (productSeo?.meta ?? null));
+  useJsonLd(PRODUCT_JSONLD_ID, productSeo?.jsonLd ?? null);
 
   const handleAdd = () => {
     if (!product) return;
@@ -171,7 +149,7 @@ export default function DetailsProductsPage() {
                   <motion.img
                     key={activeImage}
                     src={optimizeImageUrl(images[activeImage].url, 800)}
-                    alt={`${seoTitle} – foto ${activeImage + 1}`}
+                    alt={`${productSeo?.title ?? product.name} – foto ${activeImage + 1}`}
                     width={800}
                     height={800}
                     initial={{ opacity: 0 }}
@@ -243,7 +221,7 @@ export default function DetailsProductsPage() {
             <div className="flex flex-wrap items-center gap-3 mt-7">
               {product.material && (
                 <span className="inline-flex items-center gap-1.5 bg-white border border-stone-200 text-stone-600 text-xs font-medium px-3 py-1.5 rounded-full">
-                  Material: {MATERIAL_LABELS[product.material] ?? product.material}
+                  Material: {materialLabel}
                 </span>
               )}
               <span

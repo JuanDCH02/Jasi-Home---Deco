@@ -1,4 +1,5 @@
 {
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/:path*",
@@ -9,7 +10,15 @@
   ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "https://backend-production-2ce05.up.railway.app/sitemap.xml" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/productos", "destination": "/_pages/productos.html" },
+    { "source": "/sobre-nosotros", "destination": "/_pages/sobre-nosotros.html" },
+    { "source": "/contacto", "destination": "/_pages/contacto.html" },
+    { "source": "/preguntas-frecuentes", "destination": "/_pages/preguntas-frecuentes.html" },
+    { "source": "/productos/:slug", "destination": "/api/render?slug=:slug" },
+    { "source": "/carrito", "destination": "/spa.html" },
+    { "source": "/admin", "destination": "/spa.html" },
+    { "source": "/admin/:path*", "destination": "/spa.html" },
+    { "source": "/:path*", "destination": "/api/render" }
   ],
   "headers": [
     {

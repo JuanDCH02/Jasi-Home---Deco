@@ -1,15 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 export default function NotFoundPage() {
-    const { pathname } = useLocation();
-
-    usePageMeta({
-        title: 'Página no encontrada',
-        description: 'La página que buscás no existe o fue movida.',
-        path: pathname,
-        noIndex: true,
-    });
+    usePageMeta(PAGE_META.notFound);
 
     return (
         <div className="min-h-screen bg-bone pt-32 pb-20 px-6 flex items-center justify-center">

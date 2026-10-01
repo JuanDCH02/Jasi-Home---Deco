@@ -17,20 +17,23 @@
     />
 
     <!--
-      Valores por defecto (los de la Home) para bots que no ejecutan JS.
-      Cada página los reemplaza con usePageMeta. Canonical y og:url NO van acá:
-      fijos apuntarían todas las rutas a la Home.
+      Metadatos propios de cada página entre los marcadores seo-head: el
+      pre-render (entry-server.tsx) y la función api/render los reemplazan, y
+      en el navegador los actualiza usePageMeta. Estos valores por defecto son
+      los de la Home; sin canonical ni og:url, que fijos apuntarían todo a la Home.
     -->
+    <!--seo-head-->
     <title>Muebles a medida en Buenos Aires | Jasihome Deco</title>
     <meta name="description" content="Fabricamos muebles de álamo y pino: mesas de luz, cómodas, racks de TV y mesas ratonas. 25% OFF en efectivo y envíos a CABA y GBA." />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Jasihome Deco" />
-    <meta property="og:locale" content="es_AR" />
     <meta property="og:title" content="Muebles a medida en Buenos Aires | Jasihome Deco" />
     <meta property="og:description" content="Fabricamos muebles de álamo y pino: mesas de luz, cómodas, racks de TV y mesas ratonas. 25% OFF en efectivo y envíos a CABA y GBA." />
     <meta property="og:image" content="https://www.jasihomedeco.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <!--/seo-head-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Jasihome Deco" />
+    <meta property="og:locale" content="es_AR" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <script type="application/ld+json">
@@ -61,7 +64,7 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

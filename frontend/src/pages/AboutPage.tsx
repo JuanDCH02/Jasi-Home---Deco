@@ -5,6 +5,7 @@ import { Hammer, Heart, MapPin } from 'lucide-react';
 import heroImage from '../assets/foto-banner.jpg'
 import Image2 from '../assets/abouUs-2.jpg'
 import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -40,12 +41,7 @@ const values = [
 ];
 
 export default function AboutPage() {
-  usePageMeta({
-    title: 'Nuestro taller de muebles en Buenos Aires',
-    description:
-      'Emprendimiento familiar que diseña y fabrica muebles de álamo y pino a medida. Conocé nuestra historia y forma de trabajo.',
-    path: '/sobre-nosotros',
-  });
+  usePageMeta(PAGE_META.about);
 
   return (
     <div className="bg-bone">

@@ -11,8 +11,9 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  // En el pre-render (Node) no existe localStorage
   const [token, setToken] = useState<string | null>(
-    () => localStorage.getItem('admin_token')
+    () => (typeof window === 'undefined' ? null : localStorage.getItem('admin_token'))
   );
 
   const login = async (email: string, password: string) => {

@@ -5,6 +5,7 @@ import ProductCard from '../components/ProductCard';
 import { getProducts, getCategories } from '../api';
 import type { Product, Category } from '../types';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 const MATERIALS = [
   { value: '', label: 'Todos' },
@@ -24,12 +25,7 @@ export default function ProductsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  usePageMeta({
-    title: 'Catálogo de muebles de madera',
-    description:
-      'Mesas de luz, cómodas, mesas ratonas, racks de TV y respaldos en álamo y pino, fabricados en Buenos Aires. Hacemos medidas especiales.',
-    path: '/productos',
-  });
+  usePageMeta(PAGE_META.products);
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 400);

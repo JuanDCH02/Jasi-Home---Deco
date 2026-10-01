@@ -1,5 +1,8 @@
 User-agent: *
 Disallow: /admin
 Disallow: /carrito
+# Rutas internas: las páginas públicas llegan acá por rewrites de vercel.json
+Disallow: /api/
+Disallow: /_pages/
 
 Sitemap: https://www.jasihomedeco.com/sitemap.xml

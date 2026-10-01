@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 interface FaqItem {
     question: string;
@@ -141,12 +142,7 @@ function AccordionItem({
 export default function FaqPage() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-    usePageMeta({
-        title: 'Envíos, pagos y plazos de entrega',
-        description:
-            'Formas de pago (25% OFF en efectivo, 3 cuotas sin interés), zonas y costos de envío, y plazos de entrega de nuestros muebles.',
-        path: '/preguntas-frecuentes',
-    });
+    usePageMeta(PAGE_META.faq);
 
     const handleToggle = (index: number) => {
         setOpenIndex((current) => (current === index ? null : index));
