@@ -5,7 +5,8 @@ import { ChevronDown, ChevronLeft, ChevronRight, Banknote, Package, Truck } from
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../api';
 import type { Product } from '../types';
-import heroImage from '../assets/hero-foto.png';
+import { usePageMeta } from '../hooks/usePageMeta';
+import heroImage from '../assets/hero-foto.jpg';
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -45,6 +46,13 @@ export default function HomePage() {
   const [carouselIdx, setCarouselIdx] = useState(0);
   const cardsPerPage = 3;
 
+  usePageMeta({
+    title: 'Muebles a medida en Buenos Aires',
+    description:
+      'Fabricamos muebles de álamo y pino: mesas de luz, cómodas, racks de TV y mesas ratonas. 25% OFF en efectivo y envíos a CABA y GBA.',
+    path: '/',
+  });
+
   useEffect(() => {
     getProducts({ limit: 9 })
       .then((data) => setProducts(data.products ?? []))
@@ -66,7 +74,10 @@ export default function HomePage() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden grain">
         <img
           src={heroImage}
-          alt="Jasihome Deco"
+          alt="Living con mesa ratona y aparador de madera de Jasihome Deco"
+          width={1448}
+          height={1086}
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/35 to-ink/60" />

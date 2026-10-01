@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useId, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Plus } from 'lucide-react'; 
+import { Plus } from 'lucide-react';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 interface FaqItem {
     question: string;
@@ -10,7 +11,7 @@ interface FaqItem {
 
 const faqs: FaqItem[] = [
     {
-        question: 'A tener en cuenta',
+        question: '¿Qué tengo que tener en cuenta antes de comprar?',
         answer: (
             <ul className="space-y-3 list-disc pl-5 marker:text-brass">
                 <li>Nuestros productos son fabricados por nosotros mismos.</li>
@@ -30,7 +31,7 @@ const faqs: FaqItem[] = [
             <div className="space-y-3">
                 <p>
                     Pagando en efectivo o con transferencia 25% OFF y con tarjetas de
-                    crédito ( 3 cuotas sin interes).
+                    crédito (3 cuotas sin interés).
                 </p>
                 <p>
                     Podés pagar contra entrega del producto, si estás en CABA, Gran
@@ -44,17 +45,15 @@ const faqs: FaqItem[] = [
         answer: (
             <>
                 <p>
-                    El envío se coodina una vez confirmada la compra, nos comunicamos por whatsapp y 
-                    concretamos, tenemos nuestro propio servicio de envío, donde te garantizamos que tu producto
-                    llegara en excelentes condiciones.
+                    El envío se coordina una vez confirmada la compra: nos comunicamos por WhatsApp y
+                    lo concretamos. Tenemos nuestro propio servicio de envío, con el que te garantizamos
+                    que tu producto llegará en excelentes condiciones.
                 </p>
 
                 <p>
-                    Si estas en el interior del país, podemos enviarlo por via cargo.
-                </p>    
-            
+                    Si estás en el interior del país, podemos enviarlo por Vía Cargo.
+                </p>
             </>
-            
         ),
     },
     {
@@ -92,11 +91,14 @@ function AccordionItem({
     isOpen: boolean;
     onToggle: () => void;
 }) {
+    const panelId = useId();
+
     return (
         <div className="border-b border-stone-200">
             <button
                 onClick={onToggle}
                 aria-expanded={isOpen}
+                aria-controls={panelId}
                 className="w-full flex items-center justify-between gap-4 py-6 text-left group"
             >
                 <span
@@ -119,27 +121,32 @@ function AccordionItem({
                 </motion.span>
             </button>
 
-            <AnimatePresence initial={false}>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                    >
-                        <div className="pb-6 pr-12 text-stone-600 leading-relaxed">
-                            {item.answer}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {/* Siempre en el DOM (oculta al cerrarse) para que Google indexe todas las respuestas */}
+            <motion.div
+                id={panelId}
+                initial={false}
+                animate={isOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                aria-hidden={!isOpen}
+                className="overflow-hidden"
+            >
+                <div className="pb-6 pr-12 text-stone-600 leading-relaxed">
+                    {item.answer}
+                </div>
+            </motion.div>
         </div>
     );
 }
 
 export default function FaqPage() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+    usePageMeta({
+        title: 'Envíos, pagos y plazos de entrega',
+        description:
+            'Formas de pago (25% OFF en efectivo, 3 cuotas sin interés), zonas y costos de envío, y plazos de entrega de nuestros muebles.',
+        path: '/preguntas-frecuentes',
+    });
 
     const handleToggle = (index: number) => {
         setOpenIndex((current) => (current === index ? null : index));

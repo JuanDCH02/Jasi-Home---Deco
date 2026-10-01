@@ -1,5 +1,20 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "jasi-home-deco.vercel.app" }],
+      "destination": "https://www.jasihomedeco.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "https://backend-production-2ce05.up.railway.app/sitemap.xml" },
     { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/admin(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
   ]
 }

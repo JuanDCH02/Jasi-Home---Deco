@@ -4,9 +4,18 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { recordOrder } from '../api';
 import { formatPrice, getProductPrices } from '../utils/pricing';
+import { optimizeImageUrl } from '../utils/cloudinary';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function CartPage() {
   const { items, removeItem, updateQty, totalPrice, clearCart } = useCart();
+
+  usePageMeta({
+    title: 'Tu carrito',
+    description: 'Revisá los muebles de tu carrito y hacé tu pedido por WhatsApp.',
+    path: '/carrito',
+    noIndex: true,
+  });
 
   const buildWhatsAppMessage = () => {
     const lines = items.map(
@@ -105,8 +114,10 @@ export default function CartPage() {
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-stone-100 shrink-0">
                       {imageUrl ? (
                         <img
-                          src={imageUrl}
+                          src={optimizeImageUrl(imageUrl, 160)}
                           alt={item.product.name}
+                          width={80}
+                          height={80}
                           className="w-full h-full object-cover"
                         />
                       ) : (

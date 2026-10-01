@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Send, MessageCircle, MapPin, Clock } from 'lucide-react';
 import { sendContact } from '../api';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -27,6 +28,13 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = useState<Status>('idle');
   const [focused, setFocused] = useState<string | null>(null);
+
+  usePageMeta({
+    title: 'Contacto y presupuestos a medida',
+    description:
+      'Pedí presupuesto para tu mueble a medida por WhatsApp o formulario. Lunes a sábado de 9 a 19 h. Envíos a CABA y GBA.',
+    path: '/contacto',
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /carrito
+
+Sitemap: https://www.jasihomedeco.com/sitemap.xml
