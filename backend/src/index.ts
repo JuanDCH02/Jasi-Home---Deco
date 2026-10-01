@@ -7,6 +7,7 @@ import categoryRoutes from './routes/category.routes'
 import contactRoutes from './routes/contact.routes'
 import uploadRoutes from './routes/upload.routes'
 import orderRoutes from './routes/order.routes'
+import sitemapRoutes from './routes/sitemap.routes'
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/contact',    contactRoutes)
 app.use('/api/upload',      uploadRoutes)
 app.use('/api/orders',     orderRoutes)
+app.use(sitemapRoutes)
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }))
 
