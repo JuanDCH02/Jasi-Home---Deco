@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { prisma } from '../lib/prisma'
+import { slugify } from '../lib/slug'
 
 export const getCategories = async (_req: Request, res: Response) => {
     const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } })
@@ -9,7 +10,7 @@ export const getCategories = async (_req: Request, res: Response) => {
 export const createCategory = async (req: Request, res: Response) => {
     const { name } = req.body
     if (!name) { return res.status(400).json({ error: 'Nombre requerido' }); }
-    const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')
+    const slug = slugify(name)
     const category = await prisma.category.create({ data: { name, slug } })
     return res.status(201).json(category)
 }
