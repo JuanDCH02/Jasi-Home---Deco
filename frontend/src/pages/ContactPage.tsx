@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Send, MessageCircle, MapPin, Clock } from 'lucide-react';
 import { sendContact } from '../api';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -27,6 +29,8 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [status, setStatus] = useState<Status>('idle');
   const [focused, setFocused] = useState<string | null>(null);
+
+  usePageMeta(PAGE_META.contact);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));

@@ -4,6 +4,7 @@ import { ShoppingCart } from 'lucide-react';
 import type { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { formatPrice, getProductPrices } from '../utils/pricing';
+import { optimizeImageUrl } from '../utils/cloudinary';
 
 interface ProductCardProps {
   product: Product;
@@ -34,8 +35,11 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
         <div className="aspect-square overflow-hidden bg-stone-100">
           {imageUrl ? (
             <img
-              src={imageUrl}
+              src={optimizeImageUrl(imageUrl, 600)}
               alt={product.name}
+              width={600}
+              height={600}
+              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[900ms] ease-out"
             />
           ) : (

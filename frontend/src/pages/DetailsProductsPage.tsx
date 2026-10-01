@@ -7,11 +7,11 @@ import PriceDisplay from '../components/PriceDisplay';
 import { getProduct, getProducts } from '../api';
 import { useCart } from '../context/CartContext';
 import type { Product } from '../types';
-
-const MATERIAL_LABELS: Record<string, string> = {
-  PINO: 'Pino',
-  ALAMO: 'Álamo',
-};
+import { usePageMeta } from '../hooks/usePageMeta';
+import { useJsonLd } from '../hooks/useJsonLd';
+import { optimizeImageUrl } from '../utils/cloudinary';
+import { getMaterialLabel } from '../utils/materials';
+import { PAGE_META, PRODUCT_JSONLD_ID, buildProductSeo } from '../utils/seo';
 
 export default function DetailsProductsPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -27,6 +27,7 @@ export default function DetailsProductsPage() {
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
+    let ignore = false;
     window.scrollTo(0, 0);
     setLoading(true);
     setNotFound(false);
@@ -35,15 +36,31 @@ export default function DetailsProductsPage() {
 
     getProduct(slug!)
       .then((data: Product) => {
+        if (ignore) return null;
+        // Slug anterior (el producto fue renombrado): reemplaza la URL por la vigente
+        if (data.slug !== slug) {
+          ignore = true;
+          navigate(`/productos/${data.slug}`, { replace: true });
+          return null;
+        }
         setProduct(data);
         return getProducts({ category: data.category?.slug, limit: 5 });
       })
       .then((data) => {
+        if (ignore || !data) return;
         setRelated((data.products ?? []).filter((p: Product) => p.slug !== slug).slice(0, 4));
       })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
+      .catch(() => { if (!ignore) setNotFound(true); })
+      .finally(() => { if (!ignore) setLoading(false); });
+
+    return () => { ignore = true; };
+  }, [slug, navigate]);
+
+  const materialLabel = getMaterialLabel(product?.material);
+  const productSeo = product && !loading ? buildProductSeo(product, materialLabel) : null;
+
+  usePageMeta(notFound ? PAGE_META.productNotFound : (productSeo?.meta ?? null));
+  useJsonLd(PRODUCT_JSONLD_ID, productSeo?.jsonLd ?? null);
 
   const handleAdd = () => {
     if (!product) return;
@@ -131,8 +148,10 @@ export default function DetailsProductsPage() {
                 {hasImages ? (
                   <motion.img
                     key={activeImage}
-                    src={images[activeImage].url}
-                    alt={product.name}
+                    src={optimizeImageUrl(images[activeImage].url, 800)}
+                    alt={`${productSeo?.title ?? product.name} – foto ${activeImage + 1}`}
+                    width={800}
+                    height={800}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -153,13 +172,21 @@ export default function DetailsProductsPage() {
                   <button
                     key={img.id}
                     onClick={() => setActiveImage(i)}
+                    aria-label={`Ver foto ${i + 1}`}
                     className={`aspect-square w-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                       activeImage === i
                         ? 'border-brass'
                         : 'border-stone-200 hover:border-stone-300 opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img.url} alt="" className="w-full h-full object-cover" />
+                    <img
+                      src={optimizeImageUrl(img.url, 160)}
+                      alt=""
+                      width={80}
+                      height={80}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -194,7 +221,7 @@ export default function DetailsProductsPage() {
             <div className="flex flex-wrap items-center gap-3 mt-7">
               {product.material && (
                 <span className="inline-flex items-center gap-1.5 bg-white border border-stone-200 text-stone-600 text-xs font-medium px-3 py-1.5 rounded-full">
-                  Material: {MATERIAL_LABELS[product.material] ?? product.material}
+                  Material: {materialLabel}
                 </span>
               )}
               <span

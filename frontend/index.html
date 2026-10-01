@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -8,16 +8,63 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#211c16" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Jasihome Deco — Muebles a medida</title>
+
+    <!--
+      Metadatos propios de cada página entre los marcadores seo-head: el
+      pre-render (entry-server.tsx) y la función api/render los reemplazan, y
+      en el navegador los actualiza usePageMeta. Estos valores por defecto son
+      los de la Home; sin canonical ni og:url, que fijos apuntarían todo a la Home.
+    -->
+    <!--seo-head-->
+    <title>Muebles a medida en Buenos Aires | Jasihome Deco</title>
+    <meta name="description" content="Fabricamos muebles de álamo y pino: mesas de luz, cómodas, racks de TV y mesas ratonas. 25% OFF en efectivo y envíos a CABA y GBA." />
+    <meta property="og:title" content="Muebles a medida en Buenos Aires | Jasihome Deco" />
+    <meta property="og:description" content="Fabricamos muebles de álamo y pino: mesas de luz, cómodas, racks de TV y mesas ratonas. 25% OFF en efectivo y envíos a CABA y GBA." />
+    <meta property="og:image" content="https://www.jasihomedeco.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <!--/seo-head-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Jasihome Deco" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FurnitureStore",
+        "@id": "https://www.jasihomedeco.com/#store",
+        "name": "Jasihome Deco",
+        "description": "Fabricamos y vendemos muebles de álamo y pino hechos a medida en Buenos Aires.",
+        "url": "https://www.jasihomedeco.com/",
+        "logo": "https://www.jasihomedeco.com/web-app-manifest-512x512.png",
+        "image": "https://www.jasihomedeco.com/og-image.jpg",
+        "telephone": "+54 9 11 2405-0288",
+        "priceRange": "$$",
+        "openingHours": "Mo-Sa 09:00-19:00",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Buenos Aires",
+          "addressCountry": "AR"
+        },
+        "areaServed": ["Ciudad Autónoma de Buenos Aires", "Gran Buenos Aires"],
+        "paymentAccepted": "Efectivo, transferencia, tarjeta de crédito",
+        "sameAs": [
+          "https://www.instagram.com/jasihomedeco/",
+          "https://www.facebook.com/profile.php?id=61578282431363"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,7 +1,13 @@
 import { Request, Response } from 'express'
 import { prisma } from '../lib/prisma'
 import { productSchema, productUpdateSchema } from '../schemas/product.schema'
-import { Material } from '@prisma/client'
+import { Material, Prisma } from '@prisma/client'
+import { generateUniqueProductSlug, syncProductSlug } from '../lib/slug'
+
+const productInclude = {
+    category: true,
+    images:   { orderBy: { order: 'asc' } },
+} satisfies Prisma.ProductInclude
 
 // Público
 export const getProducts = async (req: Request, res: Response) => {
@@ -34,14 +40,16 @@ export const getProducts = async (req: Request, res: Response) => {
     res.json({ products, total, page: Number(page), pages: Math.ceil(total / Number(limit)) })
 }
 
+// Si el slug es uno anterior (el producto fue renombrado) devuelve el producto
+// con su slug vigente; el frontend reemplaza la URL.
 export const getProduct = async (req: Request, res: Response) => {
-    const product = await prisma.product.findUnique({
-        where:   { slug: String(req.params.slug) },
-        include: {
-            category: true,
-            images:   { orderBy: { order: 'asc' } },
-        },
-    })
+    const slug = String(req.params.slug)
+    const product =
+        await prisma.product.findUnique({ where: { slug }, include: productInclude }) ??
+        (await prisma.productSlugHistory.findUnique({
+            where:   { slug },
+            include: { product: { include: productInclude } },
+        }))?.product
     if (!product) { res.status(404).json({ error: 'Producto no encontrado' }); return }
     res.json(product)
 }
@@ -72,10 +80,7 @@ export const createProduct = async (req: Request, res: Response) => {
     if (!parsed.success) { res.status(400).json({ error: parsed.error.flatten() }); return }
 
     const { images, ...productData } = parsed.data as any
-    const slug = productData.name
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w-]/g, '')
+    const slug = await generateUniqueProductSlug(prisma, productData.name)
 
     const product = await prisma.product.create({
         data: {
@@ -97,8 +102,13 @@ export const updateProduct = async (req: Request, res: Response) => {
     const { images, ...productData } = parsed.data as any
     // Actualiza el producto
     const product = await prisma.product.update({
-        where: { id: Number(req.params.id) }, data:  productData, 
+        where: { id: Number(req.params.id) }, data:  productData,
     })
+
+    // El slug sigue al nombre: si cambió, se regenera y el anterior queda en el historial
+    if (productData.name !== undefined) {
+        await prisma.$transaction((tx) => syncProductSlug(tx, product.id, product.slug, product.name))
+    }
 
     // Si vienen imágenes nuevas, reemplaza todas
     if (images !== undefined) {

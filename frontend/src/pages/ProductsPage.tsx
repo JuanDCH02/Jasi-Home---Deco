@@ -4,6 +4,8 @@ import { Search, SlidersHorizontal, X } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { getProducts, getCategories } from '../api';
 import type { Product, Category } from '../types';
+import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 const MATERIALS = [
   { value: '', label: 'Todos' },
@@ -22,6 +24,8 @@ export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  usePageMeta(PAGE_META.products);
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 400);

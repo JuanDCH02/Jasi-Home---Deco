@@ -2,8 +2,10 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Hammer, Heart, MapPin } from 'lucide-react';
-import heroImage from '../assets/foto-banner.png'
-import Image2 from '../assets/abouUs-2.png'
+import heroImage from '../assets/foto-banner.jpg'
+import Image2 from '../assets/abouUs-2.jpg'
+import { usePageMeta } from '../hooks/usePageMeta';
+import { PAGE_META } from '../utils/seo';
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null);
@@ -39,6 +41,8 @@ const values = [
 ];
 
 export default function AboutPage() {
+  usePageMeta(PAGE_META.about);
+
   return (
     <div className="bg-bone">
 
@@ -46,7 +50,10 @@ export default function AboutPage() {
       <section className="relative h-80 md:h-[28rem] flex items-end overflow-hidden grain">
         <img
           src={heroImage}
-          alt="Taller Jasihome"
+          alt="Muebles de madera fabricados en el taller de Jasihome Deco"
+          width={1920}
+          height={768}
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
@@ -97,7 +104,10 @@ export default function AboutPage() {
             <div className="aspect-square rounded-2xl overflow-hidden border border-stone-200">
               <img
                 src={Image2}
-                alt="Nuestro taller"
+                alt="Mueble de madera de álamo hecho a medida por Jasihome Deco"
+                width={800}
+                height={1200}
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
             </div>
